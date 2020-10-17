@@ -112,24 +112,30 @@ app.post('/delete' , async (req,res)=>{
 })
 
 app.get('/:customListName' ,async (req,res)=>{
-    const customListName = req.params.customListName
+    try{
+        const customListName = req.params.customListName
 
-    const foundList = await List.findOne({name:customListName})
-
-    if(!foundList){
-        const list = new List({
-            name: customListName,
-            items: defaultItems
-        })
-        await list.save()
-        res.redirect('/' + customListName)
+        const foundList = await List.findOne({name:customListName})
+    
+        if(!foundList){
+            const list = new List({
+                name: customListName,
+                items: defaultItems
+            })
+            await list.save()
+            res.redirect('/' + customListName)
+        }
+        else{
+            res.render('list' ,{
+                listTitle: foundList.name ,
+                newListItem: foundList.items
+            })
+        }
     }
-    else{
-        res.render('list' ,{
-            listTitle: foundList.name ,
-            newListItem: foundList.items
-        })
+    catch(e){
+        console.log(e)
     }
+    
 })
 
 // app.get('/work' , (req,res)=>{
