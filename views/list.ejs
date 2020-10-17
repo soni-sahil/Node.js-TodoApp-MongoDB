@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('header') -%>
+    <!-- <% if(listTitle === 'Friday') { %>
+        <h1 style="color: purple;"><%= listTitle %> Todo List</h1>
+    <% }
+    else { %>
+        <h1 style="color: blue;"><%= listTitle %> Todo List</h1>
+    <% } %> -->
+    
+    <h1><%= listTitle %></h1>
+    <% newListItem.forEach((item) => {%>
+        <form action="/delete" method="POST">
+            <p><input type="checkbox" name="checkbox" onchange="this.form.submit()" value=<%= item._id %>>  <%= item.name %></p>
+            <input type="hidden" name="listName" value="<%=listTitle %>">
+        </form>
+    <%}) %>
+
+    <form action="/" method="post">
+        <input type="text" name="newItem" autocomplete="off" required>
+        <button type="submit" name="list" value="<%= listTitle %>">Add</button>
+    </form>
+    
+
+</body>
+</html>
